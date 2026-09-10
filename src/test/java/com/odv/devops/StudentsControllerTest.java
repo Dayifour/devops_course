@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -39,15 +40,15 @@ class StudentsControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
-                                  "nom": "Dupont",
-                                  "prenom": "Marie",
+                                  "nom": "Bruno",
+                                  "prenom": "Test",
                                   "dateN": "2000-05-15"
                                 }
                                 """))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.id", notNullValue()))
-                .andExpect(jsonPath("$.nom").value("Dupont"))
-                .andExpect(jsonPath("$.prenom").value("Marie"))
+                .andExpect(jsonPath("$.nom").value("Bruno"))
+                .andExpect(jsonPath("$.prenom").value("Test"))
                 .andExpect(jsonPath("$.dateN").value("2000-05-15"))
                 .andExpect(jsonPath("$.createDate", notNullValue()))
                 .andExpect(jsonPath("$.updateDate", notNullValue()));
@@ -57,6 +58,13 @@ class StudentsControllerTest {
     void listsCreatedStudents() throws Exception {
         mockMvc.perform(get("/api/students"))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void servesStudentsPageWithAddForm() throws Exception {
+        mockMvc.perform(get("/"))
+                .andExpect(status().isOk())
+                .andExpect(forwardedUrl("index.html"));
     }
 
     @Test
