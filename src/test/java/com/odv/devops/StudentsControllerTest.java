@@ -68,6 +68,14 @@ class StudentsControllerTest {
     }
 
     @Test
+    void exposesOpenApiSpecification() throws Exception {
+        mockMvc.perform(get("/v3/api-docs"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.openapi", notNullValue()))
+                .andExpect(jsonPath("$.paths./api/students", notNullValue()));
+    }
+
+    @Test
     void updatesAnExistingStudent() throws Exception {
         Students student = createStudent();
 
