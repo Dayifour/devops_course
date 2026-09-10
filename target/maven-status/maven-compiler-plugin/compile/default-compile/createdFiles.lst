@@ -1,0 +1,5 @@
+com/odv/devops/service/StudentsService.class
+com/odv/devops/entitie/Students.class
+com/odv/devops/DevopsApplication.class
+com/odv/devops/controllers/StudentsController.class
+com/odv/devops/repositorie/StudentsRepository.class
