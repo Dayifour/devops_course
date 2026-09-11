@@ -1,0 +1,30 @@
+stages
+  -test
+  -build
+  -docker
+
+test:
+  image: maven3.9-eclipse-temurin17:latest
+
+  script:
+    - mvn test
+    - echo "Test stage completed successfully."
+
+build:
+  image: maven3.9-eclipse-temurin17:latest
+
+  script:
+    - mvn clean package -DskipTests
+  
+  artifacts:
+    paths:
+      - target/*.jar
+    expire_in: 1 week
+
+docker:
+  image: docker:latest
+  services:
+    - docker:dind
+
+  variables:
+    DOCKER_DRIVER: 
